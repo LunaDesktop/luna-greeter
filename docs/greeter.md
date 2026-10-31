@@ -37,7 +37,12 @@ Greeter obsługuje cały standardowy dialog greetd:
 
 - `create_session` → `auth_message` (`visible` / `secret` / `info` / `error`) →
   `post_auth_message_response` → `success` → `start_session`,
-- `auth_error` czyści hasło i pozwala spróbować ponownie,
+- `auth_error` czyści hasło i pozwala spróbować ponownie; greeter od razu wysyła
+do greetd `cancel_session`, bo greetd trzyma nieudaną sesję w stanie
+„konfigurowana” i bez anulowania odrzucałby **wszystkie** kolejne logowania
+komunikatem „a session is already being configured” (aż do restartu greetd).
+Nowe połączenie greetera również zaczyna od `cancel_session`, więc sesja-sierota
+po restarcie samego greetera nie blokuje logowania.
 - brak gniazda pokazuje stan „brak połączenia” z możliwością ponownego połączenia,
 - lokalne konta są tylko podpowiedzią — można wpisać dowolną nazwę (LDAP/SSSD),
 - jeśli hasło jest wpisane przed pierwszym `Enter`, greeter wysyła je automatycznie,
@@ -143,7 +148,7 @@ wallpaper=/usr/share/wallpapers/paganlinux/paganlinux-wallpaper.png
   go do `/var/lib/luna/wallpapers/` i zapisuje ścieżkę kopii.
 - Bez tapety w `greeter.conf` greeter używa domyślnej grafiki Luny
   (`/usr/share/wallpapers/luna/luna-desktop.png`) instalowanej przez pakiet
-  `luna-branding`. Dopiero gdy i jej brakuje, tło stanowi gradient/poświata akcentu.
+  `luna-greeter`. Dopiero gdy i jej brakuje, tło stanowi gradient/poświata akcentu.
 - `LUNA_GREETER_CONFIG` wskazuje inny plik (tryb `--preview` i testy); wtedy zapis
   idzie bezpośrednio, bez `pkexec`.
 
