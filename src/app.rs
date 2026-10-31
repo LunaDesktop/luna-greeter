@@ -2448,7 +2448,7 @@ mod tests {
             std::fs::write(path, png).expect("zapis PNG");
         };
         let wallpaper_path =
-            Path::new(env!("CARGO_MANIFEST_DIR")).join("assets/wallpapers/luna-desktop.png");
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../assets/wallpapers/luna-desktop.png");
         let make = || {
             let mut app = GreeterApp::with_settings(
                 sample_users(),
