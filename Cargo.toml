@@ -1,0 +1,47 @@
+[package]
+name = "luna-greeter"
+version = "0.0.2"
+edition = "2021"
+license = "GPL-3.0-or-later"
+rust-version = "1.80"
+authors = ["Patryk Szkudlarek / libLuna contributors"]
+description = "Luna Greeter — menedżer logowania dla greetd, zbudowany na libLunie."
+repository = "https://github.com/LunaDesktop/luna-greeter"
+
+[workspace]
+resolver = "2"
+
+[lib]
+name = "luna_greeter"
+path = "src/lib.rs"
+
+[[bin]]
+name = "luna-greeter"
+path = "src/main.rs"
+
+[[bin]]
+name = "luna-greeter-config"
+path = "src/bin/config.rs"
+
+[dependencies]
+libluna-core = { git = "https://github.com/LunaDesktop/libLuna.git", version = "0.0.5" }
+libluna-i18n = { git = "https://github.com/LunaDesktop/libLuna.git", version = "0.0.5" }
+libluna-render = { git = "https://github.com/LunaDesktop/libLuna.git", version = "0.0.5" }
+libluna-platform = { git = "https://github.com/LunaDesktop/libLuna.git", version = "0.0.5" }
+libluna-widgets = { git = "https://github.com/LunaDesktop/libLuna.git", version = "0.0.5" }
+
+libc = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
