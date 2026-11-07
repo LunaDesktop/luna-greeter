@@ -42,3 +42,18 @@ jobs:
         with:
           files: "*.tar.gz"
           generate_release_notes: true
+
+  distro:
+    needs: build
+    uses: LunaDesktop/luna/.github/workflows/distro-packages.yml@main
+    with:
+      package: "luna-greeter"
+      description: "Luna Greeter — ekran logowania (frontend greetd)"
+      binaries: "luna-greeter luna-greeter-config"
+      files: |
+        session/luna-greeter-session:/usr/bin/luna-greeter-session:755
+        greetd/config.toml.example:/usr/share/luna/greetd/config.toml.example:644
+        assets/branding/luna-greeter.svg:/usr/share/icons/hicolor/scalable/apps/luna-greeter.svg:644
+      deb_depends: "libc6,libxkbcommon0,libxcursor1,libwayland-client0,greetd"
+      rpm_depends: "glibc,libxkbcommon,libXcursor,libwayland-client,greetd"
+      arch_depends: "glibc,libxkbcommon,libxcursor,wayland,greetd"
